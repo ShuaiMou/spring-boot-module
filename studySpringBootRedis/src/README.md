@@ -44,6 +44,19 @@
     根据配置文件启动
     使用redis脚本设置开机启动（启动脚本redis_init_script位于redis的 /utils/目录下）
 # 2. redis 五种数据类型和消息订阅
+## 2.1 String
+    string 是最常用的数据类型，普通的key/value都可以归为此类
+        set/get: 设置对应的值为String类型的value； 获取key对应的值。
+        
+        mget: 批量获取多个key的值，如果不存在则返回nil
+        
+        incr && incrby: incr对key对应的值进行 ‘++’操作，并返回新值； incrby加指定值。
+        
+        decr && decrby： decr对key对应的值进行 ‘--’操作，并返回新值； decrby减指定值。
+        
+        setnx: 设置key对应的值为string类型的value， 如果key已经存在则返回0.
+        
+        setex： 设置key对应的值为string类型的value，并设置有效期（单位为秒）
 # 3. redis 事务和 mysql事务 MVCC
 # 4. SpringBoot和redis深度整合和应用
 # 5. redis实现排行榜
