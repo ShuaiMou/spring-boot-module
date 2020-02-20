@@ -1,5 +1,7 @@
 # SpringBoot + redis
-[未装redis服务端，可以通此网址进行测试](http://try.redis.io/)
+[未装redis服务端，可以通此网址进行测试 http://try.redis.io/](http://try.redis.io/)
+[redis tutorial学习网站 https://www.runoob.com/redis/redis-tutorial.html](https://www.runoob.com/redis/redis-tutorial.html)
+[redis 官网 https://redis.io/](https://redis.io/)
 
 # 1. redis 介绍
 ## 1.1 一些概念
@@ -133,6 +135,17 @@
     zrank key member 返回key对应的zset中指定member的排名 
     
 ## 2.6 发布订阅
+    作用：发布订阅类似于信息管道，用来进行系统之间消息解耦，类似于MQ。 主要有消息发布者和消息订阅者。比如应用于 订单支付成功 -> 会员系统加积分，钱包进       
+        行扣钱操作，发货系统等等
+    
+    publish channel message 将信息message发送到指定的频道channel，返回收到消息的客户端数量
+    
+    subscribe channel 订阅指定频道的消息
+    
+    Unsubscribe channel 退订给定的一个或多个频道的信息。
+   
+    和MQ对比：
+        redis发布订阅功能比较薄弱但比较轻量级， MQ消息持久化， Redis数据可靠性比较差。无后台功能可以msgId， msgKey进行查询消息。
         
 # 3. redis 事务和 mysql事务 MVCC
 # 4. SpringBoot和redis深度整合和应用
