@@ -44,6 +44,7 @@
     直接启动
     根据配置文件启动
     使用redis脚本设置开机启动（启动脚本redis_init_script位于redis的 /utils/目录下）
+    
 # 2. redis 五种数据类型和消息订阅
 ## 2.1 String
     string 是最常用的数据类型，普通的key/value都可以归为此类
@@ -130,9 +131,11 @@
     zcard key 返回元素个数
     
     zrank key member 返回key对应的zset中指定member的排名 
+    
+## 2.6 发布订阅
         
 # 3. redis 事务和 mysql事务 MVCC
 # 4. SpringBoot和redis深度整合和应用
 # 5. redis实现排行榜
-# 6。 面试相关题目
+# 6.面试相关题目
 
