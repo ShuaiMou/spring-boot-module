@@ -1,4 +1,5 @@
 # SpringBoot + redis
+[未装redis服务端，可以通此网址进行测试](http://try.redis.io/)
 
 # 1. redis 介绍
 ## 1.1 一些概念
@@ -46,17 +47,90 @@
 # 2. redis 五种数据类型和消息订阅
 ## 2.1 String
     string 是最常用的数据类型，普通的key/value都可以归为此类
-        set/get: 设置对应的值为String类型的value； 获取key对应的值。
+        set/get: 设置对应的值为String类型的value； 获取key对应的值。(set/get key)
         
-        mget: 批量获取多个key的值，如果不存在则返回nil
+        mget: 批量获取多个key的值，如果不存在则返回nil( mget key1 key2 ....)
         
-        incr && incrby: incr对key对应的值进行 ‘++’操作，并返回新值； incrby加指定值。
+        incr key && incrby: incr对key对应的值进行 ‘++’操作，并返回新值； incrby加指定值。(incr key)(incrby key increment)
         
         decr && decrby： decr对key对应的值进行 ‘--’操作，并返回新值； decrby减指定值。
         
-        setnx: 设置key对应的值为string类型的value， 如果key已经存在则返回0.
+        setnx: 设置key对应的值为string类型的value， 如果key已经存在则返回0，set失败,如果key不存在，返回1，set成功。(setnx key value)
         
-        setex： 设置key对应的值为string类型的value，并设置有效期（单位为秒）
+        setex： 设置key对应的值为string类型的value，并设置有效期（单位为秒）(setex key value expireTime)
+        
+        getRange 获取key对应value的子字符串 （getRange key start end）包头包尾
+        
+        mset 批量设置多个key的值，如果成功表示所有值都被设置，返回0则表示没有任何值被设置
+        
+        msetnx，同mset
+        
+        getset 设置key的值，并返回key旧的值
+        
+        append 给指定key的value追加字符串，并返回新字符串的长度
+        
+## 2.2 Hash 类型       
+    类似于HashMap key,value Map<String, Map<String,String>>. 第一个String 是 Map<String,String>的名称， 存多个Map<String,String>通过
+    第一个String作为key来区分。
+    
+    hset key1 entryKey entryValue
+    hget key1 entryKey
+    hgetall key1(返回所有 entryKey 和 entryValue)
+    hmset key1 entryKey1 entryValue1 entryKey2 entryValue2 ...
+    hmget key1 entryKey1 entryKey2 ...
+    hlen key1(返回key1对应的entry的组数)
+    hdel key1 entryKey1(删除key1对应entryKey1的entry)
+    
+## 2.3 List 类型
+    可以作为消息队列
+    
+    lpush key value1 value2 ... 在key对应的list头部添加一个元素 数据栈
+    
+    lrange key start end 获取key对应list的指定下标范围的元素， -1表示获取所有元素
+    
+    lpop key 从key对应的list头部删除一个元素，并返回该元素。
+    
+    rpush key value1 value2 ... 在key对应的list尾部添加一个元素
+    
+    rpop key 从key对应的list尾部删除一个元素，并返回该元素。
+    
+    llen key 返回该list长度
+    
+    lindex key index 返回下标为index的元素
+    
+    lrem key count value 删除value的元素
+    
+## 2.4 Set 类型
+    sadd key1 value1 value2 .. 自动去重
+    
+    smember key 返回所有元素
+    
+    spop key 随机返回一个元素
+    
+    sdiff key1 key2 得出key1 减去key2的所有元素
+    
+    sunion key1 key2 得出并集
+    
+    sinter key1 key2 得出交集
+    
+## 2.5 SortSet 类型
+    set的基础上增加score， 再根据score进行排序
+    应用：通过SortSet实现排行榜
+    
+    zadd key score1 value1 score2 value2 在key对应的SortSet中添加元素
+    
+    zrange key start end 返回指定范围内的元素
+    
+    zrange key start end withscores  返回元素和对应分数
+    
+    zrem key value 删除key对应SortSet的一个元素
+    
+    zrangebyscore key start end 返回有序集key中，指定分数范围内的元素，可以运用在排行榜中
+    
+    zcard key 返回元素个数
+    
+    zrank key member 返回key对应的zset中指定member的排名 
+        
 # 3. redis 事务和 mysql事务 MVCC
 # 4. SpringBoot和redis深度整合和应用
 # 5. redis实现排行榜
