@@ -43,6 +43,7 @@
     直接启动
     根据配置文件启动
     使用redis脚本设置开机启动（启动脚本redis_init_script位于redis的 /utils/目录下）
+    ./redis-cli -h 127.0.0.1 -p 6379 -a myPassword
 # 2. redis 五种数据类型和消息订阅
 # 3. redis 事务和 mysql事务 MVCC
 # 4. SpringBoot和redis深度整合和应用
