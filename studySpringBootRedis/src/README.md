@@ -109,7 +109,7 @@
 ## 2.4 Set 类型
     sadd key1 value1 value2 .. 自动去重
     
-    smember key 返回所有元素
+    smembers key 返回所有元素
     
     spop key 随机返回一个元素
     
