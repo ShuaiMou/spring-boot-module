@@ -1,6 +1,10 @@
 .idea/
 studySpringBootRedis/studySpringBootRedis.iml
-studySpringBootRedis/.mvn/
 studySpringBootRedis/HELP.md
-studySpringBootRedis/mvnw
-studySpringBootRedis/mvnw.cmd
+.mvn/
+mvnw
+mvnw.cmd
+studySpringBootMybatisRedis/HELP.md
+studySpringBootMybatisRedis/studySpringbootMybatisRedis.iml
+studySpringBootRedis/target/generated-sources/
+studySpringBootRedis/target/generated-test-sources/
