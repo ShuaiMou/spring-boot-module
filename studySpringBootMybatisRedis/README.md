@@ -166,4 +166,14 @@
                   user.setName("Name" + id);
                   return user;
                }
+ 
+ ## springBoot cache 存在的问题
+    1)生成的key过于简单，容易造成冲突
+    2）无法设置过期时间，默认过期时间为永久不过期
+    3）配置序列化方式，默认是序列化JDKSerializable
+    
+    解决(springboot 自定义项)
+    1）自定义keyGenerator
+    2)自定义cacheManager，设置缓存过期时间
+    3）自定义序列化方式，例如jackson
               
