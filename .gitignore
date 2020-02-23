@@ -8,3 +8,11 @@ studySpringBootMybatisRedis/HELP.md
 studySpringBootMybatisRedis/studySpringbootMybatisRedis.iml
 studySpringBootRedis/target/generated-sources/
 studySpringBootRedis/target/generated-test-sources/
+studySpringBootMybatis/src/main/resources/static/
+studySpringBootMybatis/src/main/resources/templates/
+studySpringBootMybatisRedis/src/main/resources/static/
+studySpringBootMybatisRedis/src/main/resources/templates/
+studySpringBootMybatisRedis/target/generated-sources/
+studySpringBootMybatisRedis/target/generated-test-sources/
+studySpringBootRedis/src/main/resources/static/
+studySpringBootRedis/src/main/resources/templates/

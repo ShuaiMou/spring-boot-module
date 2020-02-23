@@ -14,7 +14,10 @@ public interface UserMapper {
     User findByEmail(@Param("email") String email);
 
 
-    @Update("update user set password=#{password} where email=#{email}")
-    int updateInformation(@Param("email") String email, @Param("password") String password);
+    @Update("update user set username=#{username} where email=#{email}")
+    void updateInformation(@Param("email") String email, @Param("username") String username);
+
+    @Delete("delete from user where email = #{email}")
+    int deleteUser(String email);
 
 }

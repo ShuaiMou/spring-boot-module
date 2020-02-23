@@ -7,10 +7,16 @@ import com.unimelb.saul.studySpringbootMybatisRedis.enumClass.StateType;
 import com.unimelb.saul.studySpringbootMybatisRedis.mapper.UserMapper;
 import com.unimelb.saul.studySpringbootMybatisRedis.service.UserService;
 import com.unimelb.saul.studySpringbootMybatisRedis.utils.RedisUtils;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+
+@CacheConfig(cacheNames = "userCache")
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
@@ -32,14 +38,14 @@ public class UserServiceImpl implements UserService {
            //缓存不存在就查询数据库
            if (user == null){
                user = userMapper.findByEmail(email);
-               System.out.println("user from MySQL");
 
                //数据库查询到就刷新redis缓存
                if (user != null){
-                   redisUtils.set(key+email,user);
+                   redisUtils.set(key+email,user,10);
                }
+               return JsonData.buildSuccess(user, "取自mysql");
            }
-           return JsonData.buildSuccess(user);
+           return JsonData.buildSuccess(user, "取自缓存,有效时间" + redisUtils.getExpire(key+email));
         }catch (Exception e){
             return JsonData.buildError(StateType.PROCESSING_EXCEPTION.getCode(), "数据库查询错误");
         }
@@ -56,12 +62,27 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+    @CachePut(key = "#p0")
     @Override
-    public JsonData updatePersonalInfo(String email, String password) {
-        try {
-            return JsonData.buildSuccess(userMapper.updateInformation(email, password));
-        }catch (Exception e){
-            return JsonData.buildError(StateType.PROCESSING_EXCEPTION.getCode(), "数据库查询错误");
-        }
+    public User updatePersonalInfo(String email, String username) {
+        userMapper.updateInformation(email, username);
+        return userMapper.findByEmail(email);
+    }
+
+    @Cacheable(key = "#p0", unless = "#result == null")
+    @Override
+    public User findByEmail(String email) {
+        return userMapper.findByEmail(email);
+    }
+
+    @CacheEvict(key = "#p0")
+    @Override
+    public User DeleteUser(String email) {
+        User user = findByEmail(email);
+        int flag = userMapper.deleteUser(email);
+        if (flag == 1)
+            return user;
+        return null;
     }
 }

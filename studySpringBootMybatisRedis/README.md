@@ -8,7 +8,7 @@
     PRIMARY KEY(email)
     );
 
-## [redis 作为mybatis 缓存整合讲解](https://github.com/ShuaiMou/spring-boot-module/blob/master/studySpringBootMybatisRedis/src/main/java/com/unimelb/saul/studySpringbootMybatisRedis/service/serviceImpl/UserServiceImpl.java)
+## [redis 作为mybatis 缓存整合讲解 checkLogin方法](https://github.com/ShuaiMou/spring-boot-module/blob/master/studySpringBootMybatisRedis/src/main/java/com/unimelb/saul/studySpringbootMybatisRedis/service/serviceImpl/UserServiceImpl.java)
     1）用户第一次访问的时候获取数据库的值，再次访问时直接从缓存中获取数据。
     2）设置缓存过期时间
     3）项目8080端口是对外端口，查内部端口用 ps -ef|grep port， 查外部端口用 lsof -i:8080
@@ -23,7 +23,23 @@
          一级缓存：sqlSession，sql建立连接到关闭连接的数据缓存
          二级缓存：全局
          
-        @Cacheable 
+         引入步骤：
+                1）引入pom.xml
+                     <dependency>
+                         <groupId>org.springframework.boot</groupId>
+                         <artifactId>spring-boot-starter-cache</artifactId>
+                     </dependency>
+                2)开启缓存注解
+                     @EnableCaching
+                     
+                3)在方法上加 SpEL 表达式
+                
+        @CacheConfig    ：抽取缓存公共配置，可以标注在类上
+                @CacheConfig(cacheNames = "emp")
+                @Service
+                public class EmployeeService 
+         
+        @Cacheable(查)
             可以标记在一个方法上，也可以标记在一个类上。当标记在一个方法上时表示该方法是支持缓存的，当标记在一个类上时则表示该类所有的方
             法都是支持缓存的。对于一个支持缓存的方法，Spring会在其被调用后将其返回值缓存起来，以保证下次利用同样的参数来执行该方法时可以
             直接从缓存中获取结果，而不需要再次执行该方法。Spring在缓存方法的返回值时是以键值对进行缓存的，值就是方法的返回结果，至于键的
@@ -41,22 +57,22 @@
                     */
                        @Cacheable(value="users", key="#id")
                        public User find(Integer id) {
-                          returnnull;
+                          return null;
                        }
                     // 表示第一个参数
                       @Cacheable(value="users", key="#p0")
                        public User find(Integer id) {
-                          returnnull;
+                          return null;
                        }
                     // 表示User中的id值
                        @Cacheable(value="users", key="#user.id")
                        public User find(User user) {
-                          returnnull;
+                          return null;
                        }
                      // 表示第一个参数里的id属性值
                        @Cacheable(value="users", key="#p0.id")
                        public User find(User user) {
-                          returnnull;
+                          return null;
                        }
                        
                 Spring还为我们提供了一个root对象可以用来生成key。通过该root对象我们可以获取到以下信息。
@@ -65,7 +81,7 @@
                        // key值为: user中的name属性的值
                       @Cacheable(value={"users", "xxx"}, key="caches[1].name")
                        public User find(User user) {
-                          returnnull;
+                          return null;
                        }
                 
 |属性名称|描述|例子|
@@ -85,7 +101,7 @@
 |key|缓存的 key，可以为空，如果指定要按照 SpEL 表达式编写，如果不指定，则缺省按照方法的所有参数进行组合|@Cacheable(value=”testcache”,key=”#userName”)|
 |condition|缓存的条件，可以为空，使用 SpEL 编写，返回 true 或者 false，只有为 true 才进行缓存|@Cacheable(value=”testcache”,condition=”#userName.length()>2”)|
             
-        @CachePut
+        @CachePut（修改，增加）
             在支持Spring Cache的环境下，对于使用@Cacheable标注的方法，Spring在每次执行前都会检查Cache中是否存在相同key的缓存元素，
             如果存在就不再执行该方法，而是直接从缓存中获取结果进行返回，否则才会执行并将返回结果存入指定的缓存中。@CachePut也可以声明一个
             方法支持缓存功能。与@Cacheable不同的是使用@CachePut标注的方法在执行前不会去检查缓存中是否存在之前执行过的结果，而是每次都
@@ -97,7 +113,7 @@
                   returnnull;
                }
         
-        @CacheEvict
+        @CacheEvict（删除）
             @CacheEvict是用来标注在需要清除缓存元素的方法或类上的。当标记在一个类上时表示其中所有的方法的执行都会触发缓存的清除操作。
             @CacheEvict可以指定的属性有value、key、condition、allEntries和beforeInvocation。其中value、key和condition的语义与
             @Cacheable对应的属性类似。即value表示清除操作是发生在哪些Cache上的（对应Cache的名称）；key表示需要清除的是哪个key，
@@ -151,13 +167,3 @@
                   return user;
                }
               
-        
-        1）引入pom.xml
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-cache</artifactId>
-            </dependency>
-        2)开启缓存注解
-            @EnableCaching
-            
-        3)在方法上加 SpEL 表达式
