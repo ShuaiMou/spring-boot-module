@@ -3,6 +3,8 @@ package com.unimelb.saul.studySpringbootMybatisRedis.mapper;
 import com.unimelb.saul.studySpringbootMybatisRedis.domain.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
 
@@ -19,5 +21,8 @@ public interface UserMapper {
 
     @Delete("delete from user where email = #{email}")
     int deleteUser(String email);
+
+    @Select("select * from user")
+    List<User> findAllUser();
 
 }

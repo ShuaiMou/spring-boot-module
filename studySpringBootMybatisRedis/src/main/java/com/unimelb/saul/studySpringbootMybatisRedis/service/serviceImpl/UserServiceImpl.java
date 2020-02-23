@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 @CacheConfig(cacheNames = "userCache")
@@ -85,4 +86,11 @@ public class UserServiceImpl implements UserService {
             return user;
         return null;
     }
+
+    @Cacheable(value = "userList", keyGenerator = "simpleKeyGenerator")
+    @Override
+    public List<User> findAllUser() {
+        return userMapper.findAllUser();
+    }
+
 }

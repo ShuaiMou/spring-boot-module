@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @Auther: Saul
  * @Date: 22/2/20 10:01 AM
@@ -59,5 +61,13 @@ public class UserController {
             return JsonData.buildSuccess(user, "过期时间" + redisUtils.getExpire(email));
         return JsonData.buildError(StateType.PROCESSING_EXCEPTION.getCode(), StateType.PROCESSING_EXCEPTION.value());
 
+    }
+
+    @GetMapping("/findAll")
+    public JsonData findAllUser(){
+        List<User> allUser = userService.findAllUser();
+        if(allUser != null)
+            return JsonData.buildSuccess(allUser);
+        return JsonData.buildError(StateType.PROCESSING_EXCEPTION.getCode(), StateType.PROCESSING_EXCEPTION.value());
     }
 }

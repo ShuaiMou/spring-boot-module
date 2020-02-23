@@ -209,7 +209,7 @@
         因为事务不过是用队列包裹起了一组redis命令，并没有提供任何额外的持久性功能，所以事务的持久性由redis所使用的持久化模式决定。（rdb， aof）
         
 # 4. SpringBoot和redis深度整合和应用
-  [redis作为mybatis二级缓存整合](https://github.com/ShuaiMou/spring-boot-module/tree/master/studySpringBootMybatisRedis)
+  [redis作为mybatis二级缓存整合](https://github.com/ShuaiMou/spring-boot-module/blob/master/studySpringBootMybatisRedis/README.md)
 
 # 5. redis实现排行榜
 # 6.面试相关题目
