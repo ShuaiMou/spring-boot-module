@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,8 +31,23 @@ public class UserController {
 
 
     @GetMapping("/login")
-    public JsonData checkLogin(String email, String password) {
-        return userService.checkLogin(email, password);
+    public JsonData checkLogin(HttpServletRequest request) {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        JsonData jsonData = userService.checkLogin(email, password);
+        if (jsonData.getData() != null)
+            request.getSession().setAttribute(email, email);
+        return jsonData;
+    }
+
+    @GetMapping("/getSession")
+    public JsonData getSession(HttpServletRequest request){
+        Enumeration<String> attributeNames = request.getSession().getAttributeNames();
+        List<String> list = new LinkedList<>();
+        while (attributeNames.hasMoreElements()){
+            list.add(attributeNames.nextElement());
+        }
+        return JsonData.buildSuccess(list);
     }
 
     @GetMapping("/register")

@@ -211,6 +211,26 @@
 # 4. SpringBoot和redis深度整合和应用
   [redis作为mybatis二级缓存整合](https://github.com/ShuaiMou/spring-boot-module/blob/master/studySpringBootMybatisRedis/README.md)
 
-# 5. redis实现排行榜
-# 6.面试相关题目
+# 5.redis实现分布式集群环境session共享(会话共享)
+   [结合mybatisDemo]()
+   
+    cookie和session介绍:
+        由于http的无状态性，为了使某个域名下的所有网页能够共享某些数据，session和cookie出现了。客户端访问服务器的流程如下
+            首先，客户端会发送一个http请求到服务器端。
+            服务器端接受客户端请求后，建立一个session，并发送一个http响应到客户端，这个响应头，其中就包含Set-Cookie头部。该头部包含了sessionId。Set-Cookie格式如下，具体请看Cookie详解
+            Set-Cookie: value[; expires=date][; domain=domain][; path=path][; secure]
+            在客户端发起的第二次请求，假如服务器给了set-Cookie，浏览器会自动在请求头中添加cookie
+            服务器接收请求，分解cookie，验证信息，核对成功后返回response给客户端
+
+    redis分布式集群配置过程：
+       1. <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+          </dependency>
+       2. @EnableRedisHttpSession//开启redis集中式session管理，把所有的session都存放到了redis中
+
+       3. maxInactiveIntervalInSeconds 设置过期时间
+    
+# 6. redis实现排行榜
+# 7.面试相关题目
 
