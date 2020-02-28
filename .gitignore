@@ -16,3 +16,8 @@ studySpringBootMybatisRedis/target/generated-sources/
 studySpringBootMybatisRedis/target/generated-test-sources/
 studySpringBootRedis/src/main/resources/static/
 studySpringBootRedis/src/main/resources/templates/
+.gitignore
+pom.xml
+src/main/java/com/unimelb/saul/studySpringBootSwagger/StudySpringBootSwaggerApplication.java
+src/main/resources/
+src/test/
